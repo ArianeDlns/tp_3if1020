@@ -25,6 +25,9 @@ Avec un signal SIGKILL par définition de ce type de signal il n'est pas possibl
 
 En retirant la variable running CTLR + C et kill <PID> sont reçus mais n'arrêtent pas le processus en cours. 
 En rajoutant kill -9 <PID> cette fois le processus est bien Killed ! 
+
+La fonction exit_message() s'execute bien avec un CTRL+C et un kill. 
+En revanche un kill -9 ne permettra pas de voir le message de sortie. 
 */
 
 bool running(true);
@@ -35,7 +38,12 @@ void stop_handler(int sig){
     running = false;
 }
 
-int main()
+void exit_message(){
+    // function adding an exit message 
+     printf("Ending the program.... Goodbye, see you soon, take care ! :) \n" );
+}
+
+int main()  
 {
     // structure for sigaction 
     struct sigaction s; 
@@ -44,6 +52,8 @@ int main()
     sigaction(SIGINT, &s, NULL);
     // adding SIGTERM signal 
     sigaction(SIGTERM, &s, NULL);
+
+    atexit(exit_message);
 
     printf("Starting program \n");
 
