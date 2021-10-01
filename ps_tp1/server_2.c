@@ -16,6 +16,10 @@
 // For signal management
 #include <signal.h>
 
+/*
+Avec kill -s INT <PID> le message de l'handler est affiché 
+Avec kill <PID> le message de l'handler ne s'affiche pas 
+*/
 
 bool running(true);
 
@@ -32,6 +36,8 @@ int main()
     s.sa_handler = &stop_handler; 
     s.sa_flags = 0; 
     sigaction(SIGINT, &s, NULL);
+    // adding SIGTERM signal 
+    sigaction(SIGTERM, &s, NULL);
 
     printf("Starting program \n");
 
