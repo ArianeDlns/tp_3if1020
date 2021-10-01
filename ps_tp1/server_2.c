@@ -18,7 +18,13 @@
 
 /*
 Avec kill -s INT <PID> le message de l'handler est affiché 
-Avec kill <PID> le message de l'handler ne s'affiche pas 
+Avec kill <PID> le message de l'handler ne s'affiche pas tant qu'on a pas rajouté la sigaction avec SIGTERM
+Avec kill -s KILL <PID> le message de l'handler n'est pas affiché avec <FATHERPID> le terminal est fermé. 
+Avec un signal SIGKILL par définition de ce type de signal il n'est pas possible de l'intercepter. (cf. documentation):
+"signum specifies the signal and can be any valid signal except SIGKILL and SIGSTOP."
+
+En retirant la variable running CTLR + C et kill <PID> sont reçus mais n'arrêtent pas le processus en cours. 
+En rajoutant kill -9 <PID> cette fois le processus est bien Killed ! 
 */
 
 bool running(true);
