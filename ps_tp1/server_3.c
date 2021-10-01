@@ -23,6 +23,8 @@ En arrêtant le processus avec kill <pid>, le père ou le fils continue d'existe
 #include <unistd.h>
 // For signal management
 #include <signal.h>
+// For wait
+#include <sys/wait.h>
 
 bool running(true);
 
@@ -43,7 +45,8 @@ int main()
 
     if (c_pid == -1) {
         perror("fork");
-        exit(EXIT_FAILURE);} 
+        exit(EXIT_FAILURE);}
+    
 
     // structure for sigaction 
     struct sigaction s; 
@@ -70,6 +73,13 @@ int main()
 
     atexit(exit_message);
 
+    // waiting for child process - IdU the question ... 
+
+    /*
+    int status;
+    wait(&status);
+    printf("Process exited with %d status\n", status);
+    */
     return EXIT_SUCCESS;
 }
 
