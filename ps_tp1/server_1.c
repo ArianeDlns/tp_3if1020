@@ -5,7 +5,6 @@
  * server_1.c
  */
 
-
 // for printf()
 #include <stdio.h>
 // For rand(), srand(), sleep(), EXIT_SUCCESS
