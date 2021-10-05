@@ -5,6 +5,7 @@
  * tris.cpp
  */
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <utility>
@@ -13,7 +14,7 @@
 #include <cstdlib>
 #include <ctime>
 
-using namespace std;
+//using namespace std;
 
 void print_tab(const std::vector<int> &tab){
     std::cout << "[ ";
@@ -72,12 +73,33 @@ void test_13(){
 }
 
 bool less(int a, int b){
+    return (a <= b);
 }
 
 bool greater(int a, int b){
+    return (a >= b);
 }
 
 void sort_tab_2(std::vector<int> &tab, bool(*comp)(int,int)){
+   std::sort(tab.begin(),tab.end(), comp);
+}
+
+void test_14(){
+    std::cout << "*** test_14 ***" << std::endl;
+    std::vector<int> tab(10);
+    random_tab(tab);
+    print_tab(tab);
+    std::cout << " >> SORTED LIST with -- >> ";
+    sort_tab_2(tab, less);
+    print_tab(tab);
+    std::cout << std::endl;
+
+    random_tab(tab);
+    print_tab(tab);
+    std::cout << " >> SORTED LIST with ++ >> ";
+    sort_tab_2(tab, greater);
+    print_tab(tab);
+    std::cout << std::endl;
 }
 
 int main(){
@@ -88,6 +110,8 @@ int main(){
     test_11();
     test_12();
     test_13();
+    test_14();
+
     return 0;
 }
 
