@@ -11,6 +11,10 @@
 * En arrêtant le processus avec kill <pid>:
 * - kill du fils: le processus fils est toujours listé avec "ps a", il disparait après le kill du père 
 * - kill du père: le processus fils continue d'exister
+*
+*En ajoutant un wait(), on demande au père d'attendre la mort du fils pour s'executer:
+*Lorsque le fils s'arrête avec un kill -INT <PID> - le status finit avec 0
+*Lorsque le fils s'arrête avec un kill -9 - le status de fin est un 9 
 */
 
 // for printf()
