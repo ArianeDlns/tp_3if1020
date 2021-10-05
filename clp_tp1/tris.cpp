@@ -102,6 +102,30 @@ void test_14(){
     std::cout << std::endl;
 }
 
+
+void sort_tab_3(std::vector<int> &tab, std::function <bool(int, int)> comp){
+   std::sort(tab.begin(),tab.end(), comp);
+}
+
+void test_15(){
+    std::cout << "*** test_15 ***" << std::endl;
+    std::vector<int> tab(10);
+    random_tab(tab);
+    print_tab(tab);
+    std::cout << " >> SORTED LIST with -- >> ";
+    sort_tab_3(tab, [](int a, int b) {return abs(a) <= abs(b);});
+    print_tab(tab);
+    std::cout << std::endl;
+
+    random_tab(tab);
+    print_tab(tab);
+    std::cout << " >> SORTED LIST with ++ >> ";
+    sort_tab_3(tab, [](int a, int b) {return abs(a) >= abs(b);});
+    print_tab(tab);
+    std::cout << std::endl;
+}
+
+
 int main(){
     //permet de changer l'aléatoire en dépendant de l'horloge 
     std::srand( std::time( nullptr ));
@@ -111,6 +135,7 @@ int main(){
     test_12();
     test_13();
     test_14();
+    test_15();
 
     return 0;
 }
