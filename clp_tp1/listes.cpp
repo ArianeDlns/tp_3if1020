@@ -22,9 +22,9 @@ std::forward_list<int> random_list(int nb) {
     return list;
 }
 
-void print_list(std::forward_list<int> list) {
+void print_list(std::forward_list<int> &list) {
     std::cout << "( ";
-    for( int i : list ) std::cout << i << " ";
+    for(int i : list) std::cout << i << " ";
     std::cout << ")" << std::endl;
 }
 
@@ -35,6 +35,30 @@ void test_21() {
     std::cout << std::endl;
 }
 
+std::forward_list<int> map_iter(const std::forward_list<int> &list, std::function <int(int)> fct) {
+    //the integers will appear in the reverse order
+    std::forward_list<int> results;
+    for(int i : list) results.push_front(fct(i));
+    return results;
+
+}
+
+void test_22() {
+    std::cout << "*** test_22 ***" << std::endl;
+    auto list = random_list(10);
+    print_list(list);
+
+    std::cout << "--------------v---------------" << std::endl;
+    std::forward_list<int> results = map_iter(list,[](int a) {return a*3;});
+    print_list(results);
+    std::cout << std::endl;
+}
+
+std::forward_list<int> filter_iter(const std::forward_list<int> &list, std::function <bool(int)> comp) {
+    std::forward_list<int> results;
+    return results;
+}
+
 int main()
 {
     //permet de changer l'aléatoire en dépendant de l'horloge 
@@ -42,6 +66,7 @@ int main()
 
     //tests
     test_21();
+    test_22();
 
     return 0;
 }
