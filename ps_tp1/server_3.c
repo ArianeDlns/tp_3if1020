@@ -6,12 +6,12 @@
  */
 
 /*
-On peut distinguer les deux types de messages en fonction du <pid> et <fatherpid>. 
-CTRL+C tue les deux processus. 
-
-En arrêtant le processus avec kill <pid>, le père ou le fils continue d'exister. 
- */
-
+* On peut distinguer les deux types de messages en fonction du <pid> et <fatherpid>. 
+* CTRL+C tue les deux processus.
+* En arrêtant le processus avec kill <pid>:
+* - kill du fils: le processus fils est toujours listé avec "ps a", il disparait après le kill du père 
+* - kill du père: le processus fils continue d'exister
+*/
 
 // for printf()
 #include <stdio.h>
@@ -46,7 +46,15 @@ int main()
     if (c_pid == -1) {
         perror("fork");
         exit(EXIT_FAILURE);}
-    
+    if(c_pid==0){
+        printf("Child process \n");
+    }
+    else{
+        printf("Father process \n");
+        int child_status;
+        wait(&child_status);
+        printf("Child terminated with status %d\n", child_status);
+    }
 
     // structure for sigaction 
     struct sigaction s; 
@@ -55,31 +63,23 @@ int main()
     sigaction(SIGINT, &s, NULL);
     // adding SIGTERM signal 
     sigaction(SIGTERM, &s, NULL);
+    atexit(exit_message);
 
     printf("Starting program \n");
 
     while (running){
         // boucle infine
-          int pid(getpid());
-          int fatherpid(getppid());
-          int random_nub(rand() % 100);
+        int pid(getpid());
+        int fatherpid(getppid());
+        int random_nub(rand() % 100);
 
-          printf("pid: %d \n" , (pid));
-          printf("father pid: %d \n" , (fatherpid));
-          printf("randint: %d \n\n" , (random_nub));
+        printf("pid: %d \n" , (pid));
+        printf("father pid: %d \n" , (fatherpid));
+        printf("randint: %d \n\n" , (random_nub));
 
-          sleep(1);
+        sleep(1);
     }
 
-    atexit(exit_message);
-
-    // waiting for child process - IdU the question ... 
-
-    /*
-    int status;
-    wait(&status);
-    printf("Process exited with %d status\n", status);
-    */
     return EXIT_SUCCESS;
 }
 
