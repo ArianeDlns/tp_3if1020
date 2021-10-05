@@ -81,6 +81,24 @@ void test_23() {
     std::cout << std::endl;
 }
 
+
+void test_24() {
+    std::cout << "*** test_24 ***" << std::endl;
+    int coef{std::rand()%5 + 1};
+    auto list = random_list(10);
+    print_list(list);
+    
+    std::cout << "-----------Using: "<< coef << "-----------" << std::endl;
+    std::cout << "--------------v---------------" << std::endl;
+    std::forward_list<int> results = map_iter(list,[coef](int a) {return a*coef;});
+    print_list(results);
+
+    std::cout << "--------------v---------------" << std::endl;
+    std::forward_list<int> filtered = filter_iter(results,[](int a) {return (a%2 == 0);});
+    print_list(filtered);
+}
+
+
 int main()
 {
     //permet de changer l'aléatoire en dépendant de l'horloge 
@@ -90,6 +108,7 @@ int main()
     test_21();
     test_22();
     test_23();
+    test_24();
 
     return 0;
 }
