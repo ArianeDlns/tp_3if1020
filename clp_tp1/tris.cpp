@@ -13,11 +13,27 @@
 #include <cstdlib>
 #include <ctime>
 
+using namespace std;
 
-int main()
-{
+void print_tab(std::vector<int> tab){
+    std::cout << "[ ";
+    for (int i(0); i < tab.size(); i++){
+        std::cout << tab[i] << " ";
+    }
+    std::cout << "]";
+}
+
+void test_11(){
+    const std::vector< int > tab{ 1, -2, 3, -4, 5, -6 };
+    std::cout << "*** test_11 *** " << std::endl;
+    print_tab(tab);
+    std::cout << std::endl;
+}
+
+
+int main(){
     std::srand( std::time( nullptr ));
-
+    test_11();
     return 0;
 }
 
