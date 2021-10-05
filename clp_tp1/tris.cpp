@@ -30,10 +30,28 @@ void test_11(){
     std::cout << std::endl;
 }
 
+void random_tab(std::vector<int> &tab){
+    for (int i{0}; i < tab.size(); i++) {
+        tab[i] = (rand()%21)-10;
+    }
+}
+
+void test_12() {
+    std::cout << "*** test_12 ***" << std::endl;
+    std::vector<int>tab(10);
+    random_tab(tab);
+    print_tab(tab);
+    std::cout << std::endl;
+}
+
+void sort_tab_1(std::vector<int> &tab){
+}
 
 int main(){
+    //permet de changer l'aléatoire en dépendant de l'horloge 
     std::srand( std::time( nullptr ));
     test_11();
+    test_12();
     return 0;
 }
 
