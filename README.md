@@ -17,3 +17,5 @@
 $ git config --global user.name "Mon Nom d'utilisateur"
 $ git config --global user.email monemail@example.com
 ```
+
+:bulb: [Emojis Cheatsheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#light--video)
