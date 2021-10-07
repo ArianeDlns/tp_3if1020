@@ -112,6 +112,7 @@ void test_24()
     std::forward_list<int> filtered = filter_iter(results, [](int a)
                                                   { return (a % 2 == 0); });
     print_list(filtered);
+    std::cout << std::endl;
 }
 
 int reduce(const std::forward_list<int> &list, int n, std::function<int(int, int)> fct)
@@ -157,14 +158,49 @@ void test_25()
  */
 
 int fold_left_aux(std::forward_list<int>::const_iterator it,
-                  std::forward_list<int>::const_iterator end, int start,
-                  std::function<int(int, int)> function)
+                  std::forward_list<int>::const_iterator end, int n,
+                  std::function<int(int, int)> fct)
 {
-
     if (it == end)
-        return start;
+        return n;
     else
-        return fold_left_aux(std::next(it), end, function(*it, start), function);
+    {
+        int result{fct(*it, n)};
+        return fold_left_aux(++it, end, result, fct);
+    }
+}
+
+int fold_left(const std::forward_list<int> &list, int n, std::function<int(int, int)> fct)
+{
+    return fold_left_aux(list.cbegin(), list.cend(), n, fct);
+}
+
+void test_31()
+{
+    std::cout << "*** test_31 ***" << std::endl;
+    auto list = random_list(10);
+    print_list(list);
+
+    int max_int = std::numeric_limits<int>::max();
+    int min_int = std::numeric_limits<int>::min();
+
+    int min_value{fold_left(list, max_int,
+                            [](int a, int b)
+                            {
+                                if (a <= b)
+                                    return a;
+                                return b;
+                            })};
+    std::cout << "Minimum: " << min_value << std::endl;
+
+    int max_value{fold_left(list, min_int, [](int a, int b)
+                            {
+                                if (a >= b)
+                                    return a;
+                                return b;
+                            })};
+    std::cout << "Maximum: " << max_value << std::endl;
+    std::cout << std::endl;
 }
 
 int main()
@@ -178,6 +214,7 @@ int main()
     test_23();
     test_24();
     test_25();
+    test_31();
 
     return 0;
 }
