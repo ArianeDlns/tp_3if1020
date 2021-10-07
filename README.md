@@ -19,3 +19,10 @@ $ git config --global user.email monemail@example.com
 ```
 
 :bulb: [Emojis Cheatsheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#light--video)
+
+:bulb: Autoformatting with VS Code for C++ 
+> The C/C++ extension for Visual Studio Code supports source code formatting using clang-format which is included with the extension.
+You can format an entire file with Format Document (⇧⌥F) or just the current selection with Format Selection (⌘K ⌘F) in right-click context menu.
+
+:bulb: Preview markdown in VS Code
+>You can view the preview side-by-side (⌘K V) with the file you are editing and see changes reflected in real-time as you edit.
