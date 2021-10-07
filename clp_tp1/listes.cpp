@@ -13,101 +13,120 @@
 #include <cstdlib>
 #include <ctime>
 
-std::forward_list<int> random_list(int nb) {
+std::forward_list<int> random_list(int nb)
+{
     std::forward_list<int> list;
-    for (int i = 0; i < nb; i++) {
-        int random_number{std::rand()%100};
+    for (int i = 0; i < nb; i++)
+    {
+        int random_number{std::rand() % 100};
         list.push_front(random_number);
     }
     return list;
 }
 
-void print_list(std::forward_list<int> &list) {
+void print_list(std::forward_list<int> &list)
+{
     std::cout << "( ";
-    for(int i : list) std::cout << i << " ";
+    for (int i : list)
+        std::cout << i << " ";
     std::cout << ")" << std::endl;
 }
 
-void test_21() {
+void test_21()
+{
     std::cout << "*** test_21 ***" << std::endl;
     auto list = random_list(10);
     print_list(list);
     std::cout << std::endl;
 }
 
-std::forward_list<int> map_iter(const std::forward_list<int> &list, std::function <int(int)> fct) {
+std::forward_list<int> map_iter(const std::forward_list<int> &list, std::function<int(int)> fct)
+{
     //the integers will appear in the reverse order
     std::forward_list<int> results;
-    for(int i : list) results.push_front(fct(i));
+    for (int i : list)
+        results.push_front(fct(i));
     return results;
-
 }
 
-void test_22() {
+void test_22()
+{
     std::cout << "*** test_22 ***" << std::endl;
     auto list = random_list(10);
     print_list(list);
 
     std::cout << "--------------v---------------" << std::endl;
-    std::forward_list<int> results = map_iter(list,[](int a) {return a*3;});
+    std::forward_list<int> results = map_iter(list, [](int a)
+                                              { return a * 3; });
     print_list(results);
     std::cout << std::endl;
 }
 
-std::forward_list<int> filter_iter(const std::forward_list<int> &list, std::function <bool(int)> predicat) {
+std::forward_list<int> filter_iter(const std::forward_list<int> &list, std::function<bool(int)> predicat)
+{
     //the integers will appear in the reverse order
     std::forward_list<int> results;
-    for(int i : list){
-        if(predicat(i)){
+    for (int i : list)
+    {
+        if (predicat(i))
+        {
             results.push_front(i);
         }
     }
     return results;
 }
 
-void test_23() {
+void test_23()
+{
     std::cout << "*** test_23 ***" << std::endl;
     auto list = random_list(10);
     print_list(list);
 
     std::cout << "--------------v---------------" << std::endl;
-    std::forward_list<int> results = map_iter(list,[](int a) {return a*3;});
+    std::forward_list<int> results = map_iter(list, [](int a)
+                                              { return a * 3; });
     print_list(results);
 
     std::cout << "--------------v---------------" << std::endl;
-    std::forward_list<int> filtered = filter_iter(results,[](int a) {return (a%2 == 0);});
+    std::forward_list<int> filtered = filter_iter(results, [](int a)
+                                                  { return (a % 2 == 0); });
     print_list(filtered);
 
     std::cout << std::endl;
 }
 
-
-void test_24() {
+void test_24()
+{
     std::cout << "*** test_24 ***" << std::endl;
-    int coef{std::rand()%5 + 1};
+    int coef{std::rand() % 5 + 1};
     auto list = random_list(10);
     print_list(list);
 
-    std::cout << "-----------Using: "<< coef << "-----------" << std::endl;
+    std::cout << "-----------Using: " << coef << "-----------" << std::endl;
     std::cout << "--------------v---------------" << std::endl;
-    std::forward_list<int> results = map_iter(list,[coef](int a) {return a*coef;});
+    std::forward_list<int> results = map_iter(list, [coef](int a)
+                                              { return a * coef; });
     print_list(results);
 
     std::cout << "--------------v---------------" << std::endl;
-    std::forward_list<int> filtered = filter_iter(results,[](int a) {return (a%2 == 0);});
+    std::forward_list<int> filtered = filter_iter(results, [](int a)
+                                                  { return (a % 2 == 0); });
     print_list(filtered);
 }
 
-int reduce(const std::forward_list<int> &list,int n, std::function <int(int,int)> fct) {
+int reduce(const std::forward_list<int> &list, int n, std::function<int(int, int)> fct)
+{
     //the integers will appear in the reverse order
     int result{n};
-    for (int i : list) {
+    for (int i : list)
+    {
         result = fct(result, i);
     }
     return result;
 }
 
-void test_25(){
+void test_25()
+{
     std::cout << "*** test_25 ***" << std::endl;
     auto list = random_list(10);
     print_list(list);
@@ -115,10 +134,20 @@ void test_25(){
     int max_int = std::numeric_limits<int>::max();
     int min_int = std::numeric_limits<int>::min();
 
-    int min_value{reduce(list, max_int, [](int a, int b) {if (a <= b) return a; return b;})};
+    int min_value{reduce(list, max_int, [](int a, int b)
+                         {
+                             if (a <= b)
+                                 return a;
+                             return b;
+                         })};
     std::cout << "Minimum: " << min_value << std::endl;
 
-    int max_value{reduce(list, min_int, [](int a, int b) {if (a >= b) return a; return b;})};
+    int max_value{reduce(list, min_int, [](int a, int b)
+                         {
+                             if (a >= b)
+                                 return a;
+                             return b;
+                         })};
     std::cout << "Maximum: " << max_value << std::endl;
     std::cout << std::endl;
 }
@@ -127,10 +156,21 @@ void test_25(){
  * STARTING BONUS
  */
 
+int fold_left_aux(std::forward_list<int>::const_iterator it,
+                  std::forward_list<int>::const_iterator end, int start,
+                  std::function<int(int, int)> function)
+{
+
+    if (it == end)
+        return start;
+    else
+        return fold_left_aux(std::next(it), end, function(*it, start), function);
+}
+
 int main()
 {
-    //permet de changer l'aléatoire en dépendant de l'horloge 
-    std::srand( std::time( nullptr ));
+    //permet de changer l'aléatoire en dépendant de l'horloge
+    std::srand(std::time(nullptr));
 
     //tests
     test_21();
@@ -141,4 +181,3 @@ int main()
 
     return 0;
 }
-
