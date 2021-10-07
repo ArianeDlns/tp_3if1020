@@ -203,6 +203,76 @@ void test_31()
     std::cout << std::endl;
 }
 
+std::forward_list<int> map_aux(std::forward_list<int>::const_iterator it,
+                               std::forward_list<int>::const_iterator end,
+                               std::function<int(int)> fct,
+                               std::forward_list<int> results)
+{
+    if (it == end)
+        return results;
+    else
+    {
+        int result = fct(*it);
+            results = map_aux(++it, end, fct, results);
+        results.push_front(result);
+        return results;
+    }
+}
+
+std::forward_list<int> map(const std::forward_list<int> &list,
+                           std::function<int(int)> fct)
+{
+    std::forward_list<int> results;
+    return map_aux(list.cbegin(), list.cend(), fct, results);
+}
+
+std::forward_list<int> filter_aux(std::forward_list<int>::const_iterator it,
+                                  std::forward_list<int>::const_iterator end,
+                                  std::function<bool(int)> fct,
+                                  std::forward_list<int> results)
+{
+    if (it == end)
+        return results;
+    else
+    {
+        if (fct(*it))
+        {
+            int result = *it;
+            results = filter_aux(++it, end, fct, results);
+            results.push_front(result);
+        }
+        else
+            return filter_aux(++it, end, fct, results);
+        return results;
+    }
+}
+
+std::forward_list<int> filter(const std::forward_list<int> &list,
+                              std::function<bool(int)> fct)
+{
+    std::forward_list<int> results;
+    return filter_aux(list.cbegin(), list.cend(), fct, results);
+}
+
+void test_32()
+{
+    std::cout << "*** test_32 ***" << std::endl;
+    auto list = random_list(10);
+    print_list(list);
+
+    std::cout << "--------------v---------------" << std::endl;
+    std::forward_list<int> results = map(list, [](int a)
+                                         { return a * 3; });
+    print_list(results);
+
+    std::cout << "--------------v---------------" << std::endl;
+    std::forward_list<int> filtered = filter(results, [](int a)
+                                             { return (a % 2 == 0); });
+    print_list(filtered);
+
+    std::cout << std::endl;
+}
+
 int main()
 {
     //permet de changer l'aléatoire en dépendant de l'horloge
@@ -215,6 +285,7 @@ int main()
     test_24();
     test_25();
     test_31();
+    test_32();
 
     return 0;
 }
