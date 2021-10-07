@@ -36,11 +36,13 @@ Threads
 Consumer
 Producer
 
+
 # Commonly found in student projects
+*.plist
+*.dSYM
 main
 test
 tests
 googletest
 gtest
 boost*
-
