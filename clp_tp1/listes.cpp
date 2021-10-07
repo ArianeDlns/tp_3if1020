@@ -213,7 +213,7 @@ std::forward_list<int> map_aux(std::forward_list<int>::const_iterator it,
     else
     {
         int result = fct(*it);
-            results = map_aux(++it, end, fct, results);
+        results = map_aux(++it, end, fct, results);
         results.push_front(result);
         return results;
     }
@@ -257,12 +257,37 @@ std::forward_list<int> filter(const std::forward_list<int> &list,
 void test_32()
 {
     std::cout << "*** test_32 ***" << std::endl;
+    int coef{std::rand() % 5 + 1};
     auto list = random_list(10);
     print_list(list);
 
+    std::cout << "-----------Using: " << coef << "-----------" << std::endl;
     std::cout << "--------------v---------------" << std::endl;
-    std::forward_list<int> results = map(list, [](int a)
-                                         { return a * 3; });
+    std::forward_list<int> results = map(list, [coef](int a)
+                                         { return a * coef; });
+    print_list(results);
+
+    std::cout << "--------------v---------------" << std::endl;
+    std::forward_list<int> filtered = filter(results, [](int a)
+                                             { return (a % 2 == 0); });
+    print_list(filtered);
+
+    std::cout << std::endl;
+}
+
+void test_33()
+{
+    std::cout << "*** test_33 ***" << std::endl;
+    int coef{std::rand() % 5 + 1};
+    auto list = random_list(10);
+    print_list(list);
+
+    std::multiplies<int> mul_int;
+
+    std::cout << "-----------Using: " << coef << "-----------" << std::endl;
+    std::cout << "--------------v---------------" << std::endl;
+    std::forward_list<int> results = map(list, [coef, mul_int](int a)
+                                         { return mul_int(a, coef); });
     print_list(results);
 
     std::cout << "--------------v---------------" << std::endl;
@@ -286,6 +311,7 @@ int main()
     test_25();
     test_31();
     test_32();
+    test_33();
 
     return 0;
 }
