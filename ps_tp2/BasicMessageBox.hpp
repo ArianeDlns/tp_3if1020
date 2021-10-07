@@ -44,9 +44,10 @@ public:
         get_index_ = ( get_index_ + 1 ) % box_size_;
         return message;
     }
+protected:
+    static const unsigned box_size_ = 2;
 private:
     // FIFO réalisée par un tableau géré en tampon circulaire via 2 indices (dépôt et retrait)
-    static const unsigned box_size_ = 2;
     std::array< int, box_size_ > box_;
     unsigned put_index_;
     unsigned get_index_;
