@@ -20,6 +20,7 @@ a.out
 *.EXE
 
 # 3IF1020 specific
+td_1
 tris
 listes
 TestNumber
