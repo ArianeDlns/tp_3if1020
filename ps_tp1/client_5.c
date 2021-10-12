@@ -22,7 +22,12 @@
 // For fifo
 #include <fcntl.h>
 
+#include <sys/stat.h>
+#include <sys/types.h>
+
 bool running(true);
+//Fifo path specific please change it before using this
+char const * const FIFO_PATH = "/Users/ariane/Desktop/fifo_ps";
 
 void stop_handler(int sig) //Stop handler
 {
@@ -43,10 +48,22 @@ int main()
     s.sa_flags = 0;
     sigaction(SIGINT, &s, NULL);
     sigaction(SIGTERM, &s, NULL);
-    atexit(exit_message);
 
-    int read_fifo = open("fifo_ps", O_RDONLY);
+    int read_fifo = open(FIFO_PATH, O_RDONLY);
+    
     while (running)
     {
+        printf("[Client process], Pid: %d \n", getpid());
+
+        int number_received{};
+        if (read(read_fifo, &number_received, 1)==0){
+            stop_handler(2);
+        }
+        printf("Random number received : %d\n", number_received);
+        sleep(1);
     }
+
+    atexit(exit_message);
+
+    return EXIT_SUCCESS;
 }
