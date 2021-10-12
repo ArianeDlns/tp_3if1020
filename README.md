@@ -27,3 +27,5 @@ You can format an entire file with Format Document (⇧⌥F) or just the current
 
 :bulb: Preview markdown in VS Code
 >You can view the preview side-by-side (⌘K V) with the file you are editing and see changes reflected in real-time as you edit.
+
+:bulb: [Installing GoogleTest on MacOSX](https://alexanderbussan.medium.com/getting-started-with-google-test-on-os-x-a07eee7ae6dc)
