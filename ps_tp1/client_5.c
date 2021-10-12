@@ -48,6 +48,7 @@ int main()
     s.sa_flags = 0;
     sigaction(SIGINT, &s, NULL);
     sigaction(SIGTERM, &s, NULL);
+    sigaction(SIGPIPE, &s, NULL);
 
     int read_fifo = open(FIFO_PATH, O_RDONLY);
     

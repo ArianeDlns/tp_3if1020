@@ -48,6 +48,7 @@ int main()
     s.sa_flags = 0;
     sigaction(SIGINT, &s, NULL);
     sigaction(SIGTERM, &s, NULL);
+    sigaction(SIGPIPE, &s, NULL);
     
 
     mkfifo(FIFO_PATH, 0777);
