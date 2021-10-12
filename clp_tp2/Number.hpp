@@ -18,7 +18,7 @@ public:
     Number(unsigned long l) { first_ = new Digit(l); }
     ~Number() { delete first_; }
 
-    //void print(std::ostream &out) const { first_-> print(out); }
+    void print(std::ostream &out) const { first_ -> print(out); }
 
 private:
     using DigitType = unsigned int;
@@ -37,8 +37,8 @@ private:
             }
             else
             {
-                unsigned long divide {l / number_base};
-                unsigned long reste {l % number_base};
+                unsigned long divide{l / number_base};
+                unsigned long reste{l % number_base};
                 digit_ = (DigitType(reste));
                 next_ = new Digit(divide);
             }
@@ -48,14 +48,23 @@ private:
             if (next_ != nullptr)
                 delete next_;
         }
+        void print(std::ostream &out) const
+         {
+            if (next_ != nullptr)
+            {
+                next_->print(out);
+            }
+            out << digit_;
+        }
+
     };
     Digit *first_;
 };
-/*
+
 inline std::ostream &operator<<(std::ostream &out, const Number &n)
 {
     n.print(out);
     return out;
 }
-*/
+
 #endif

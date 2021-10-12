@@ -3,7 +3,8 @@
  * 3IF1020 - Concepts des langages de programmation - TP n°2
  *
  * TestNumber.cpp
- * c++ -std=c++20 -o TestNumber Number.cpp TestNumber.cpp -lgtest
+ * c++ -std=c++11 -o TestNumber Number.cpp TestNumber.cpp -lgtest
+ * ./TestNumber
  */
 
 #include <exception>
@@ -11,10 +12,8 @@
 #include <utility>
 
 #include <gtest/gtest.h>
-
 #include "Number.hpp"
 
- 
 TEST( TestNumber, TestNumber0 )
 {
     Number n{ 0 };
