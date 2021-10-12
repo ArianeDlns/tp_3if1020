@@ -4,13 +4,13 @@
 
 ### TP 1.
 
-:desktop_computer: [Sujet TP.1 Programmation système](https://wdi.centralesupelec.fr/3IF1020/SystExercice1) - 17/10
+:desktop_computer: [Sujet TP.1 Programmation système](https://wdi.centralesupelec.fr/3IF1020/SystExercice1) - due date: 17/10
 
-:keyboard: [Sujet TP.1 Concepts des langages de programmation](https://wdi.centralesupelec.fr/3IF1020/ProgExercice1) - 19/10
+:keyboard: [Sujet TP.1 Concepts des langages de programmation](https://wdi.centralesupelec.fr/3IF1020/ProgExercice1) - due date: 19/10
 
 ### TP 2.
 
-:keyboard: [Sujet TP.2 Concepts des langages de programmation](https://wdi.centralesupelec.fr/3IF1020/ProgExercice2) - 26/10
+:keyboard: [Sujet TP.2 Concepts des langages de programmation](https://wdi.centralesupelec.fr/3IF1020/ProgExercice2) - due date: 26/10
 
 ## Tips 
 :bulb: Changing git username
