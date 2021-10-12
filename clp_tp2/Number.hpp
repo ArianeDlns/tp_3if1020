@@ -15,12 +15,10 @@
 class Number
 {
 public:
-    Number(unsigned long l) {first_ = new Digit(l)}
-    ~Number() {delete first_;}
+    Number(unsigned long l) { first_ = new Digit(l); }
+    ~Number() { delete first_; }
 
-    void print(std::ostream &out) const
-    { /* TODO */
-    }
+    //void print(std::ostream &out) const { first_-> print(out); }
 
 private:
     using DigitType = unsigned int;
@@ -30,14 +28,34 @@ private:
     {
         DigitType digit_;
         Digit *next_;
+        Digit(unsigned long l)
+        {
+            if (l < number_base)
+            {
+                digit_ = (DigitType)l;
+                next_ = nullptr;
+            }
+            else
+            {
+                unsigned long divide {l / number_base};
+                unsigned long reste {l % number_base};
+                digit_ = (DigitType(reste));
+                next_ = new Digit(divide);
+            }
+        }
+        ~Digit()
+        {
+            if (next_ != nullptr)
+                delete next_;
+        }
     };
     Digit *first_;
 };
-
+/*
 inline std::ostream &operator<<(std::ostream &out, const Number &n)
 {
     n.print(out);
     return out;
 }
-
+*/
 #endif
