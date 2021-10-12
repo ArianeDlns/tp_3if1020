@@ -12,27 +12,31 @@
 #include <string>
 #include <utility>
 
-class Number {
+class Number
+{
 public:
-    Number( unsigned long l ) { /* TODO */ }
-    ~Number() { /* TODO */ }
- 
-    void print( std::ostream & out ) const { /* TODO */ }
+    Number(unsigned long l) {first_ = new Digit(l)}
+    ~Number() {delete first_;}
+
+    void print(std::ostream &out) const
+    { /* TODO */
+    }
 
 private:
     using DigitType = unsigned int;
     // Un seul chiffre décimal par maillon : l'objectif ici n'est pas la performance
-    static const DigitType number_base{ 10u };
-    struct Digit {
+    static const DigitType number_base{10u};
+    struct Digit
+    {
         DigitType digit_;
-        Digit * next_;
+        Digit *next_;
     };
-    Digit * first_;
+    Digit *first_;
 };
 
-inline std::ostream & operator<<( std::ostream & out, const Number & n )
+inline std::ostream &operator<<(std::ostream &out, const Number &n)
 {
-    n.print( out );
+    n.print(out);
     return out;
 }
 
