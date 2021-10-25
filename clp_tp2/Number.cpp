@@ -12,3 +12,13 @@
 #include <utility>
 
 #include "Number.hpp"
+
+Number factorial(unsigned int i)
+{
+    Number n{1};
+    while (i > 0) {
+        n.multiply(i);
+        i -= 1;
+    }
+    return n;
+}

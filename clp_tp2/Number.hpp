@@ -20,15 +20,20 @@ public:
     // Affectation par copie
     Number(const Number &n) { first_ = new Digit(*(n.first_)); }
     // Affectation
-    Number &operator=(const Number &n)
-    {
-        first_ = new Digit(*n.first_);
+    Number & operator=(Number n){
+        using std::swap;
+        swap( first_, n.first_ );
         return *this;
     }
     // Destructeur
     ~Number() { delete first_; }
 
+    // Print
     void print(std::ostream &out) const { first_->print(out); }
+    // Add
+    void add(unsigned int i) { first_->add(i); }
+    // Multiply
+    void multiply(unsigned int i) { first_->multiply(i); }
 
 private:
     using DigitType = unsigned int;
@@ -56,22 +61,13 @@ private:
         // Affectation par copie
         Digit(const Digit &d)
         {
-            digit_ = d.digit_;
-            if (d.next_ != nullptr)
-            {
-                Digit *next = new Digit(*(d.next_));
-                next_ = next;
+           if ( next_ ) {
+                next_ = nullptr;
             }
-        }
-        // Affectation
-        Digit &operator=(const Digit &d)
-        {
-            digit_ = d.digit_;
-            if (d.next_ != nullptr)
-            {
-                next_ = new Digit(*(d.next_));
+            if ( d.next_ ) {
+                this->next_ = new Digit( *(d.next_) );
             }
-            return *this;
+            this->digit_ = d.digit_;
         }
         // Destructeur
         ~Digit()
@@ -87,6 +83,36 @@ private:
             }
             out << digit_;
         }
+        // Add
+        void add(DigitType i)
+        {
+            DigitType carry = static_cast<unsigned long>(digit_ + i) / number_base;
+            digit_ = static_cast<unsigned long>(digit_ + i) % number_base;
+            if (next_ != nullptr)
+            {
+                next_->add(carry);
+            }
+            else if (carry != 0)
+            {
+                next_ = new Digit(carry);
+            }
+        }
+        // Multiply
+        void multiply(DigitType i)
+        {
+            unsigned long new_value = digit_ * i;
+            DigitType carry = new_value / number_base;
+            digit_ = new_value % number_base;
+            if (next_ != nullptr)
+            {
+                next_->multiply(i);
+                next_->add(carry);
+            }
+            else if (carry != 0)
+            {
+                next_ = new Digit(carry);
+            }
+        }
     };
     Digit *first_;
 };
@@ -96,5 +122,6 @@ inline std::ostream &operator<<(std::ostream &out, const Number &n)
     n.print(out);
     return out;
 }
+Number factorial(unsigned int i);
 
 #endif
