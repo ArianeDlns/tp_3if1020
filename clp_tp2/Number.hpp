@@ -15,10 +15,20 @@
 class Number
 {
 public:
+    // Instantiation
     Number(unsigned long l) { first_ = new Digit(l); }
+    // Affectation par copie
+    Number(const Number &n) { first_ = new Digit(*(n.first_)); }
+    // Affectation
+    Number &operator=(const Number &n)
+    {
+        first_ = new Digit(*n.first_);
+        return *this;
+    }
+    // Destructeur
     ~Number() { delete first_; }
 
-    void print(std::ostream &out) const { first_ -> print(out); }
+    void print(std::ostream &out) const { first_->print(out); }
 
 private:
     using DigitType = unsigned int;
@@ -43,20 +53,40 @@ private:
                 next_ = new Digit(divide);
             }
         }
+        // Affectation par copie
+        Digit(const Digit &d)
+        {
+            digit_ = d.digit_;
+            if (d.next_ != nullptr)
+            {
+                Digit *next = new Digit(*(d.next_));
+                next_ = next;
+            }
+        }
+        // Affectation
+        Digit &operator=(const Digit &d)
+        {
+            digit_ = d.digit_;
+            if (d.next_ != nullptr)
+            {
+                next_ = new Digit(*(d.next_));
+            }
+            return *this;
+        }
+        // Destructeur
         ~Digit()
         {
             if (next_ != nullptr)
                 delete next_;
         }
         void print(std::ostream &out) const
-         {
+        {
             if (next_ != nullptr)
             {
                 next_->print(out);
             }
             out << digit_;
         }
-
     };
     Digit *first_;
 };

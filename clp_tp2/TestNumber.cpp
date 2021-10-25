@@ -38,8 +38,28 @@ TEST( TestNumber, TestNumberBig )
     EXPECT_EQ( os.str(), "12345123451234512345" );
 }
 
+TEST( TestNumber, TestAssign )
+{
+    Number n{ 12345678 };
+    Number n_assigned{ 0 };
+    n_assigned = n;
+    std::ostringstream os;
+    os << n_assigned;   
+    EXPECT_EQ( os.str(), "12345678" );
+}
+
+TEST( TestNumber, TestAffectCopy )
+{
+    Number n{ 12345678 };
+    Number n_copied = n;
+    std::ostringstream os;
+    os << n_copied;
+    EXPECT_EQ( os.str(), "12345678" );
+}
+
 int main( int argc, char * argv[] )
 {
     ::testing::InitGoogleTest( &argc, argv );
     return RUN_ALL_TESTS();
 }
+
