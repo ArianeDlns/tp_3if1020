@@ -93,6 +93,16 @@ TEST(TestNumber, TestStrConstruc)
     EXPECT_EQ(os.str(), "123");
 }
 
+TEST(TestNumber, TestInput)
+{
+    Number n{0};
+    std::string input{" 123abc"};
+    std::stringstream(input) >> n;
+    std::ostringstream os;
+    os << n;
+    EXPECT_EQ(os.str(), "123");
+}
+
 int main(int argc, char *argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);

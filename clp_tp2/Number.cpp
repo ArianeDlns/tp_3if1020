@@ -21,4 +21,28 @@ Number factorial(unsigned int i)
         i -= 1;
     }
     return n;
+};
+
+std::istream &operator>>(std::istream &in, Number &n)
+{
+    // in est le flux d'entrée
+    std::string str{""};
+    // ignore les blancs au début
+    in >> std::ws;
+    while (in.good())
+    {
+        int c{in.get()};
+        if (std::isdigit(c))
+        {
+            unsigned int d{static_cast<unsigned int>(c - '0')};
+            str = str + std::to_string(d);
+        }
+        else
+        {
+            in.putback(c);
+            break;
+        }
+    }
+    n = Number{str};
+    return in;
 }

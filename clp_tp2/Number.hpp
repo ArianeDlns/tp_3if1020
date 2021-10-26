@@ -158,6 +158,10 @@ inline std::ostream &operator<<(std::ostream &out, const Number &n)
     n.print(out);
     return out;
 }
+
 Number factorial(unsigned int i);
+std::istream &operator>>(std::istream &in, Number &n);
 
 #endif
+
+
