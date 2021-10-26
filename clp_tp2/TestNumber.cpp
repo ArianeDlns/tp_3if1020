@@ -85,6 +85,13 @@ TEST(TestNumber, TestFactorial123)
                         "72186029519906261646730733907419814952960000000000000000000000000000");
 }
 
+TEST(TestNumber, TestStrConstruc)
+{
+    Number n{"123"};
+    std::ostringstream os;
+    os << n;
+    EXPECT_EQ(os.str(), "123");
+}
 
 int main(int argc, char *argv[])
 {

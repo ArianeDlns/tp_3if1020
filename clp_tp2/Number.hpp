@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <utility>
+#include <math.h>
 
 class Number
 {
@@ -20,10 +21,21 @@ public:
     // Affectation par copie
     Number(const Number &n) { first_ = new Digit(*(n.first_)); }
     // Affectation
-    Number & operator=(Number n){
+    Number &operator=(Number n)
+    {
         using std::swap;
-        swap( first_, n.first_ );
+        swap(first_, n.first_);
         return *this;
+    }
+    // Constructeur
+    Number(std::string s)
+    {
+        if (s == "")
+        {
+            throw std::invalid_argument("La chaîne de caractères vide");
+        }
+        std::reverse(s.begin(), s.end());
+        first_ = new Digit(s);
     }
     // Destructeur
     ~Number() { delete first_; }
@@ -58,14 +70,38 @@ private:
                 next_ = new Digit(divide);
             }
         }
+        /// Constructeur
+        Digit(std::string s)
+        {
+            digit_ = 0;
+            unsigned long i = 0;
+            unsigned long max = log10(number_base);
+            unsigned long nb = std::min(max, static_cast<unsigned long>(s.size()));
+            for (i = 0; i < nb; i++)
+            {
+                if (!std::isdigit(s[i]))
+                {
+                    throw std::invalid_argument("Un caractère n'est pas un nombre");
+                }
+                DigitType d = static_cast<unsigned int>(s[i] - '0');
+                digit_ = pow(10, i) * d;
+            }
+            s.erase(0, nb);
+            if (s.empty())
+                next_ = nullptr;
+            else
+                next_ = new Digit(s);
+        }
         // Affectation par copie
         Digit(const Digit &d)
         {
-           if ( next_ ) {
+            if (next_)
+            {
                 next_ = nullptr;
             }
-            if ( d.next_ ) {
-                this->next_ = new Digit( *(d.next_) );
+            if (d.next_)
+            {
+                this->next_ = new Digit(*(d.next_));
             }
             this->digit_ = d.digit_;
         }
@@ -86,31 +122,31 @@ private:
         // Add
         void add(DigitType i)
         {
-            DigitType carry = static_cast<unsigned long>(digit_ + i) / number_base;
+            DigitType d = static_cast<unsigned long>(digit_ + i) / number_base;
             digit_ = static_cast<unsigned long>(digit_ + i) % number_base;
             if (next_ != nullptr)
             {
-                next_->add(carry);
+                next_->add(d);
             }
-            else if (carry != 0)
+            else if (d != 0)
             {
-                next_ = new Digit(carry);
+                next_ = new Digit(d);
             }
         }
         // Multiply
         void multiply(DigitType i)
         {
             unsigned long new_value = digit_ * i;
-            DigitType carry = new_value / number_base;
+            DigitType d = new_value / number_base;
             digit_ = new_value % number_base;
             if (next_ != nullptr)
             {
                 next_->multiply(i);
-                next_->add(carry);
+                next_->add(d);
             }
-            else if (carry != 0)
+            else if (d != 0)
             {
-                next_ = new Digit(carry);
+                next_ = new Digit(d);
             }
         }
     };
