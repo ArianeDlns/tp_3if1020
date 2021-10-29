@@ -23,7 +23,7 @@
  * Version sans mécanisme de synchronisation
  */
 class BasicMessageBox {
-public:
+protected:
     BasicMessageBox()
         : box_{}
         , put_index_{ 0 }
@@ -44,7 +44,6 @@ public:
         get_index_ = ( get_index_ + 1 ) % box_size_;
         return message;
     }
-protected:
     static const unsigned box_size_ = 2;
 private:
     // FIFO réalisée par un tableau géré en tampon circulaire via 2 indices (dépôt et retrait)
