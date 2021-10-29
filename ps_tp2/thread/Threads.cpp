@@ -28,6 +28,7 @@ int main()
     // Créer une boîte à lettres
     MessageBox box{};
 
+    /*FIRST PART 
     // Créer un producteur et un consommateur
     Producer producteur{1, box, random_engine, 20};
     Consumer consomateur{2, box, random_engine, 20};
@@ -38,6 +39,23 @@ int main()
 
     thread1.join();
     thread2.join();
+*/
+
+    std::vector<std::thread> group;
+
+    for (unsigned i = 0; i < 4; i++)
+    {
+        std::vector<std::thread> group;
+        group.push_back(std::thread{Producer{i, box, random_engine, 10}});
+    }
+
+    for (unsigned i = 0; i < 2; i++)
+    {
+        group.push_back(std::thread{Consumer{i, box, random_engine, 20}});
+    }
+
+    for (auto &t : group)
+        t.join();
 
     return 0;
 }
