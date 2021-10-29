@@ -22,7 +22,6 @@
  */
 int main()
 {
-
     // Créer un générateur de nombres aléatoires
     Random random_engine{50};
 
