@@ -33,7 +33,7 @@ public:
         {
             int message = msg;
             box_.put(message);
-            std::cout << "[Producer] message " << message << " vient d'être déposé par " << name_ << "\n";
+            osyncstream(std::cout) << "[Producer] message " << message << " vient d'être déposé par " << name_ << "\n";
             std::this_thread::sleep_for(milliseconds{random_engine_()});
         }
     }

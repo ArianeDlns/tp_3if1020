@@ -45,7 +45,6 @@ int main()
 
     for (unsigned i = 0; i < 4; i++)
     {
-        std::vector<std::thread> group;
         group.push_back(std::thread{Producer{i, box, random_engine, 10}});
     }
 
