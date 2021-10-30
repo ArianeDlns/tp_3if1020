@@ -23,7 +23,7 @@ $ git config --global user.email monemail@example.com
 
 :bulb: [Emojis Cheatsheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#light--video)
 
-:bulb: Compiling and runing code with Code Runner
+:bulb: Compiling and running code with Code Runner
 > Use the shortcut Ctrl+Alt+N
 
 :bulb: Autoformatting with VS Code for C++ 
