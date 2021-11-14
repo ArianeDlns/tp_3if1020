@@ -20,6 +20,15 @@ public:
     virtual ~Expression(){};
     virtual std::ostream &print(std::ostream &out) const = 0;
 
+    virtual Expression *derive(std::string nom) const = 0;
+    /* Expression::derive
+     Derives an expression by the variable "nom"
+     Input:
+        - string : the name of the variable
+     Output:
+        - A newly allocated Expression* element
+     */
+
 private:
 };
 
@@ -38,6 +47,10 @@ public:
     };
     ~Nombre(){};
     std::ostream &print(std::ostream &out) const override;
+    Expression *derive(std::string valeur) const override
+    {
+        return new Nombre{0};
+    }
 
 private:
     float valeur_;
@@ -57,6 +70,14 @@ public:
     };
     ~Variable(){};
     std::ostream &print(std::ostream &out) const override;
+    Expression *derive(std::string var) const override
+    {
+        if (var_ == var)
+        {
+            return new Nombre{1};
+        }
+        return new Nombre{0};
+    }
 
 private:
     std::string var_;

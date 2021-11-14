@@ -6,15 +6,14 @@
  * c++ -std=c++20 -o TestExpression TestExpression.cpp Expression.cpp -lgtest -lpthread
  */
 
-
 // [Question]: Ajouter les attributs et les associations. Un opérateur peut soit posséder ses opérandes (composition), soit simplement les connaître (association simple ou agrégation) : quelle est la bonne sémantique à retenir ici ?
-// [Réponse]: 
+// [Réponse]:
 
 // [Question]: Quel est l'intérêt d'avoir une super-classe Operation ?
-// [Réponse]: 
+// [Réponse]:
 
 // [Question]:  Définir la sémantique précise du comportement de dérivation d'une expression par rapport à une variable (la méthode recevra le nom de la variable en argument) : ce comportement doit-il modifier l'instance courante ou créer une nouvelle instance représentant la dérivée de l'objet courant ?
-// [Réponse]: 
+// [Réponse]:
 
 #include <sstream>
 #include <utility>
@@ -45,6 +44,24 @@ TEST(TestVariable, TestVar)
     std::ostringstream os;
     os << n;
     EXPECT_EQ(os.str(), "Var");
+}
+
+TEST(TestExp, TestDeriveVar_1)
+{
+    Variable v1{"Abc"};
+    Expression *deriv = v1.derive("Abc");
+    std::ostringstream os;
+    os << *deriv;
+    EXPECT_EQ(os.str(), "1");
+}
+
+TEST(TestExp, TestDeriveVar_0)
+{
+    Variable v1{"Abc"};
+    Expression *deriv = v1.derive("xxx");
+    std::ostringstream os;
+    os << *deriv;
+    EXPECT_EQ(os.str(), "0");
 }
 
 int main(int argc, char *argv[])
