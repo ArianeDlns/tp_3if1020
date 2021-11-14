@@ -21,26 +21,48 @@
 /*
  * Consommateur de messages
  */
-class Consumer : public ProdOrCons {
+class Consumer : public ProdOrCons
+{
 public:
     // Le constructeur de ProdOrCons sera utilisé comme constructeur de Consumer
     using ProdOrCons::ProdOrCons;
- 
-    void operator()() override {
+    using milliseconds = std::chrono::duration<int, std::milli>;
+
+    void operator()() override
+    {
         // TODO : déposer dans box nb_messages nombres entiers positifs avec attente
         // aléatoire entre chaque. Afficher des messages, via un osyncstream,
         // pour suivre l'avancement.
+        for (int msg = 0; msg < nb_messages_; msg++)
+        {
+            int message = box_.get();
+            osyncstream(std::cout) << "[Consumer] message " << message << " vient d'être reçu par " << name_ << "\n";
+            std::this_thread::sleep_for(milliseconds{random_engine_()});
+        }
     }
 };
 
-
-int main ()
+int main()
 {
     using namespace boost::interprocess;
 
     // TODO : accéder à la mémoire partagée, la projeter en mémoire,
     // y accéder comme boîte à lettres, lancer le consommateur
-    
+    int box_memsize = sizeof(MessageBox);
+
+    struct sharedbox_remove
+    {
+        ~sharedbox_remove() { shared_memory_object::remove("MemoryShared"); }
+    } remover;
+
+    shared_memory_object SharedBox(open_only, "MemoryShared", read_write);
+    SharedBox.truncate(box_memsize);
+    mapped_region map_region = mapped_region(SharedBox, read_write, 0, box_memsize);
+
+    MessageBox *box = (MessageBox *)map_region.get_address();
+    Random generator{100};
+    Consumer consumer{0, *box, generator, 20};
+    consumer();
+
     return 0;
 }
-

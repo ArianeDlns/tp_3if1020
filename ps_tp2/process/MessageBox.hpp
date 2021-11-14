@@ -20,19 +20,50 @@
  * FIFO d'echange de messages entre producteurs et consommateurs
  * Version pour synchronisation entre processus
  */
-class MessageBox : public BasicMessageBox {
+class MessageBox : public BasicMessageBox
+{
 public:
-    void put( int message ) {
+    void put(int message)
+    {
         // TODO : ajouter les mecanismes de synchronisation
-        basic_put( message );
+        basic_put(message);
+        unique_lock lock(box_access_);
+        write_.wait(lock, [this]()
+                    { return messages_waiting_ < box_size_; });
+
+        basic_put(message);
+        messages_waiting_++;
+
+        box_access_.unlock();
+        read_.notify_one();
     }
- 
-    int get() {
+
+    int get()
+    {
         // TODO : ajouter les mecanismes de synchronisation
-        int message{ basic_get() };
+        unique_lock lock(box_access_);
+        read_.wait(lock, [this]()
+                   { return messages_waiting_ > 0; });
+
+        int message{basic_get()};
+        messages_waiting_--;
+
+        box_access_.unlock();
+
+        write_.notify_one();
+
         return message;
     }
+
 private:
     // TODO : ajouter les objets de synchronisation
+    int messages_waiting_ = 0;
+
+    typedef boost::interprocess::scoped_lock<
+        boost::interprocess::interprocess_mutex>
+        unique_lock;
+
+    boost::interprocess::interprocess_mutex box_access_;
+    boost::interprocess::interprocess_condition read_;
+    boost::interprocess::interprocess_condition write_;
 };
- 

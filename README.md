@@ -14,6 +14,11 @@
 
 :keyboard: [Sujet TP.2 Concepts des langages de programmation](https://wdi.centralesupelec.fr/3IF1020/ProgExercice2) - due date: 26/10
 
+### TP 3.
+
+:keyboard: [Sujet TP.3 Concepts des langages de programmation](https://wdi.centralesupelec.fr/3IF1020/ProgExercice3) - due date: 16/11
+
+
 ## Tips 
 :bulb: Changing git username
 ```bash
