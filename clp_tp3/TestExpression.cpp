@@ -22,7 +22,9 @@
 
 #include "Expression.hpp"
 
-TEST(TestNombre, TestNumber0)
+int Expression::counter_ = 0;
+
+TEST(TestExp, TestNumber0)
 {
     Nombre n{0};
     std::ostringstream os;
@@ -30,20 +32,42 @@ TEST(TestNombre, TestNumber0)
     EXPECT_EQ(os.str(), "0");
 }
 
-TEST(TestNombre, TestNumber123)
+TEST(TestExp, TestNumber1)
 {
-    Nombre n{1.23};
+    Nombre n{1};
     std::ostringstream os;
     os << n;
-    EXPECT_EQ(os.str(), "1.23");
+    EXPECT_EQ(os.str(), "1");
 }
 
-TEST(TestVariable, TestVar)
+TEST(TestExp, TestNumber1_00)
+{
+    Nombre n{1};
+    std::ostringstream os;
+    os << n.toString();
+    EXPECT_EQ(os.str(), "1");
+}
+
+TEST(TestExp, TestVar)
 {
     Variable n{"Var"};
     std::ostringstream os;
     os << n;
     EXPECT_EQ(os.str(), "Var");
+}
+
+TEST(TestExp, TestPrintAddition) {
+    Addition add{new Variable{"abc"}, new Nombre{0}};
+    std::ostringstream os;
+    os << add;
+    EXPECT_EQ(os.str(), "(abc + 0)");
+}
+
+TEST(TestExp, TestPrintMultiplication) {
+    Multiply mult{new Variable{"abc"}, new Nombre{0}};
+    std::ostringstream os;
+    os << mult;
+    EXPECT_EQ(os.str(), "(abc * 0)");
 }
 
 TEST(TestExp, TestDeriveVar_1)
